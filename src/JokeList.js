@@ -12,6 +12,7 @@ class JokeList extends React.Component {
         super(props);
         this.state = { jokes: [] }
         this.generateNewJokes = this.generateNewJokes.bind(this);
+        this.vote = this.vote.bind(this);
     };
 
     /* at mount, get jokes */
@@ -72,7 +73,7 @@ class JokeList extends React.Component {
     vote(id, delta) {
         let jokeVotes = JSON.parse(window.localStorage.getItem("jokeVotes"));
         jokeVotes[id] = (jokeVotes[id] || 0) + delta;
-        window.localStorage.setitem("jokeVotes", JSON.stringify(jokeVotes));
+        window.localStorage.setItem("jokeVotes", JSON.stringify(jokeVotes));
         this.setState(st => ({
             jokes: st.jokes.map(j => (j.id === id ? { ...j, votes: j.votes + delta } : j))
         }));
