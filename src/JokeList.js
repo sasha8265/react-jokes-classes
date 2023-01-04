@@ -36,20 +36,20 @@ class JokeList extends React.Component {
             let seenJokes = new Set(jokes.map(j => j.id));
             
             
-                while (jokes.length < this.props.numJokesToGet) {
-                    let res = await axios.get("https://icanhazdadjoke.com", {
-                        headers: { Accept: "application/json" }
-                    });
-                    let { status, ...jokeObj } = res.data;
+            while (jokes.length < this.props.numJokesToGet) {
+                let res = await axios.get("https://icanhazdadjoke.com", {
+                    headers: { Accept: "application/json" }
+                });
+                let { status, ...jokeObj } = res.data;
 
-                    if (!seenJokes.has(jokeObj.id)) {
-                        seenJokes.add(jokeObj.id);
-                        jokes.push({ ...jokeObj, votes: 0 });
-                    } else {
-                        console.error("duplicate found!");
-                    }
+                if (!seenJokes.has(jokeObj.id)) {
+                    seenJokes.add(jokeObj.id);
+                    jokes.push({ ...jokeObj, votes: 0 });
+                } else {
+                    console.error("duplicate found!");
                 }
-                this.setState({ jokes });
+            }
+            this.setState({ jokes });
             window.localStorage.setItem("jokeVotes", JSON.stringify(jokeVotes));
         }
         catch (e) {
@@ -59,7 +59,7 @@ class JokeList extends React.Component {
 
     /* empty joke list and then call getJokes */
     generateNewJokes() {
-        this.setState(st => ({jokes: st.jokes}))
+        this.setState(st => ({jokes: []}))
     }
 
     // resetVotes() {
